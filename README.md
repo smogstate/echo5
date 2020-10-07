@@ -11,16 +11,16 @@ We do 5 things:
 
 ## Getting started
 
-The main idea is to make a proxy with [Netty Framework]: https://netty.io/ and intercept requests.
+The main idea is to make a proxy with [Netty](https://netty.io/) and intercept requests.
 Why netty, because we can then virtualize services accessible by any protocol.
-First protocol implemented will be HTTP.
+First protocol to implement will be: HTTP.
 
 Currently what is need to be done:
 
 1. Flexible http scenario json format.
-..* String matcher format (f.e destination, path, etc)
-..* Map matcher format (f.e forms, query, headers) 
-..* Malli schems for scenario validation
+  * String matcher format (f.e destination, path, etc)
+  * Map matcher format (f.e forms, query, headers) 
+  * Malli schems for scenario validation
 2. Extendable core for matchers.
 3. Bootstrap Netty instance.
 4. Intercept requests and find first matching scenario.
