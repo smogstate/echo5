@@ -23,7 +23,9 @@ Currently what is need to be done:
   * Malli schems for scenario validation
 2. Extendable core for matchers.
 3. Bootstrap Netty instance.
-4. Intercept requests and find first matching scenario.
+4. Intercept requests
+  * Find matching scenario and execute it
+  * If no scenario found forward request to service
 5. Execute scenario.
 
 
