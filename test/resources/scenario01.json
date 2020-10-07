@@ -1,0 +1,30 @@
+{
+    "matchers": {
+        "path": [{
+            "matcher": "exact",
+            "value": "/test.html"
+        }],
+        "method": [{
+            "matcher": "exact",
+            "value": "GET"
+        }],
+        "destination": [{
+            "matcher": "exact",
+            "value": "test.org"
+        }],
+        "headers": [{
+            "key": {
+                "matcher": "exact",
+                "value": "support_id"
+            },
+            "value": {
+                "matcher": "startsWith",
+                "value": "S01"
+            }
+        }],
+        "query": [{
+            "matcher": "exact",
+            "value": "true"
+        }]
+    }
+}
