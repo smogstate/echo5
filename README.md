@@ -18,8 +18,8 @@ First protocol to implement will be: HTTP.
 Currently what is need to be done:
 
 1. Flexible http scenario json format.
-  * String matcher format (f.e destination, path, etc)
-  * Map matcher format (f.e forms, query, headers) 
+  * String matcher format (f.e destination, path, etc) :heavy_check_mark:
+  * Map matcher format (f.e forms, query, headers) :heavy_check_mark:
   * Malli schems for scenario validation
 2. Extendable core for matchers.
 3. Bootstrap Netty instance.
