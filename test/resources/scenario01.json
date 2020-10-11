@@ -1,30 +1,24 @@
 {
-    "matchers": {
+    "request": {
         "path": [{
-            "matcher": "exact",
-            "value": "/test.html"
+            "exact-matcher": "/test.html"
         }],
         "method": [{
-            "matcher": "exact",
-            "value": "GET"
+            "exact-matcher": "GET"
         }],
         "destination": [{
-            "matcher": "exact",
-            "value": "test.org"
+            "exact-matcher": "test.org"
         }],
         "headers": [{
-            "key": {
-                "matcher": "exact",
-                "value": "support_id"
-            },
-            "value": {
-                "matcher": "startsWith",
-                "value": "S01"
-            }
+            "name": "support_id",
+            "starts-with-matcher": "S01"
+        }, {
+            "name": "test_id",
+            "exact-matcher": "T01"
         }],
         "query": [{
-            "matcher": "exact",
-            "value": "true"
+            "name": "support_id",
+            "starts-with-matcher": "S01"
         }]
     }
 }
