@@ -7,17 +7,6 @@
 
 (def matcher-suffix "-matcher")
 
-(defn get-left-value
-  ""
-  [left {:keys [parameters]}]
-  (if (map? left)
-    (let [map-key (:name parameters)
-          map-value (get left map-key empty-value)]
-      map-value)
-    (if (nil? left)
-      empty-value
-      left)))
-
 (defn matcher-attr?
   "True if matcher attribute"
   [k]
