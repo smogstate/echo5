@@ -1,7 +1,46 @@
 (ns smogstate.scenario.http
   (:require
    [clojure.string :as s]
+   [malli.core :as malli]
+   [malli.error :as me]
    [smogstate.matchers :as m]))
+
+(def StartsWithMatcher
+  [:map
+   [:name {:optional true} string?]
+   [:starts-with-matcher string?]])
+
+(def EndsWithMatcher
+  [:map
+   [:name {:optional true} string?]
+   [:ends-with-matcher string?]])
+
+(def IncludesMatcher
+  [:map
+   [:name {:optional true} string?]
+   [:includes-matcher string?]])
+
+(def ExactMatcher
+  [:map
+   [:name {:optional true} string?]
+   [:exact-matcher string?]])
+
+(def Matcher
+  [:or
+   StartsWithMatcher
+   EndsWithMatcher
+   IncludesMatcher
+   ExactMatcher])
+
+(def Scenario
+  [:map
+   [:request
+    [:map
+     [:destination {:optional true} [:vector Matcher]]
+     [:method {:optional true} [:vector Matcher]]
+     [:headers {:optional true} [:vector Matcher]]
+     [:query {:optional true} [:vector Matcher]]
+     [:path {:optional true} [:vector Matcher]]]]])
 
 (def empty-value "")
 
@@ -29,7 +68,7 @@
   "Converts left to string"
   [{:keys [name]}]
   (if-not (nil? name)
-    (fn[a] (get a name empty-value))
+    (fn [a] (get a name empty-value))
     identity))
 
 (defn definition->matcher
@@ -70,10 +109,16 @@
 (defn matches?
   "True if request matches scenario"
   [{:keys [instance scenario]}]
-  (let [matchers (:request scenario)
-        p {:instance instance}
-        m (map #(match-block (assoc p :block %1)) matchers)]
-    (reduce #(and %1 %2) true m)))
+  (println "scenario" scenario)
+  (let [error (-> Scenario
+                  (malli/explain scenario)
+                  (me/humanize))]
+    (if error
+      (throw (ex-info "Scenario validation failed." error)))
+    (let [matchers (:request scenario)
+          p {:instance instance}
+          m (map #(match-block (assoc p :block %1)) matchers)]
+      (reduce #(and %1 %2) true m))))
 
 (comment (matches? {:instance {:destination "test.org"
                                :path "/test.html"
