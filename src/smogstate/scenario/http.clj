@@ -42,6 +42,18 @@
      [:query {:optional true} [:vector Matcher]]
      [:path {:optional true} [:vector Matcher]]]]])
 
+(def scenario {:request
+               {:path [{:starts-with-matcher "/test.html"}],
+                :method [{:ends-with-matcher "GET"}],
+                :headers
+                [{:starts-with-matcher "S01", :name "support_id"}
+                 {:name "test_id", :exact-matcher "T01"}],
+                :destination [{:exact-matcher "test.org"}]}})
+
+(malli/explain Matcher {:starts-with-matcher "/test.html"})
+
+(malli/explain Scenario scenario)
+
 (def empty-value "")
 
 (def matcher-suffix "-matcher")
@@ -108,17 +120,17 @@
 
 (defn matches?
   "True if request matches scenario"
-  [{:keys [instance scenario]}]
-  (println "scenario" scenario)
+  [{:keys [instance scenario] :as ctx}]
   (let [error (-> Scenario
                   (malli/explain scenario)
                   (me/humanize))]
     (if error
-      (throw (ex-info "Scenario validation failed." error)))
-    (let [matchers (:request scenario)
-          p {:instance instance}
-          m (map #(match-block (assoc p :block %1)) matchers)]
-      (reduce #(and %1 %2) true m))))
+      (assoc ctx :error error)
+      (let [matchers (:request scenario)
+            p {:instance instance}
+            m (map #(match-block (assoc p :block %1)) matchers)
+            result (reduce #(and %1 %2) true m)]
+        (assoc ctx :match result)))))
 
 (comment (matches? {:instance {:destination "test.org"
                                :path "/test.html"

@@ -30,7 +30,7 @@
                                         :path [{:starts-with-matcher "test"}]
                                         :headers [{:name "support_id" :exact-matcher "S01"}]}}})]
     (is (= true
-           result))))
+           (:match result)))))
 
 (deftest when-header-not-ok-then-dont-match
   (let [result (h/matches? {:instance test-request
@@ -40,4 +40,4 @@
                                         :path [{:starts-with-matcher "test"}]
                                         :headers [{:name "support_id" :exact-matcher "S011"}]}}})]
     (is (= false
-           result))))
+           (:match result)))))
